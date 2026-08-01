@@ -481,9 +481,11 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   #invoice .doctitle{font-size:12px; color:#b8912f; letter-spacing:.34em; font-weight:700; margin-bottom:2px;}
   #invoice .meta{display:flex; justify-content:space-between; font-size:11.5px; color:#8a8f98; margin-top:14px; padding-bottom:16px; border-bottom:1px solid #eee;}
   #invoice .meta b{color:#1a1a1a; font-weight:600;}
-  #invoice .evt{margin:18px 0 6px;}
+  #invoice .evt{margin:18px 0 6px; display:flex; justify-content:space-between; align-items:flex-end; gap:12px;}
   #invoice .evt .l{font-size:11px; color:#9a9aa2; letter-spacing:.06em;}
   #invoice .evt .v{font-size:17px; font-weight:700; margin-top:4px; line-height:1.4;}
+  #invoice .evt .evtdate{font-size:12px; color:#8a8f98; white-space:nowrap; padding-bottom:3px;}
+  #invoice .evt .evtdate b{color:#1a1a1a; font-weight:600;}
   #invoice .lines{margin-top:16px; border-top:1px solid #eee; padding-top:6px;}
   #invoice .lines .li{display:flex; justify-content:space-between; font-size:13px; padding:8px 0; color:#4a4a52;}
   #invoice .lines .li .amt{font-variant-numeric:tabular-nums; color:#1a1a1a;}
@@ -493,7 +495,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   #invoice .total .tv{font-size:24px; font-weight:800; font-variant-numeric:tabular-nums; letter-spacing:-.02em;}
   #invoice .pay{margin-top:20px; background:#faf8f2; border:1px solid #f0e9d6; border-radius:10px; padding:13px 14px;}
   #invoice .pay .pt{font-size:10.5px; color:#b8912f; letter-spacing:.14em; font-weight:700; margin-bottom:6px;}
-  #invoice .pay .pv{font-size:13px; font-weight:600; line-height:1.5;}
+  #invoice .pay .pv{font-size:11.5px; font-weight:600; line-height:1.55;}
   #invoice .foot{margin-top:20px; padding-top:14px; border-top:1px solid #eee; font-size:11px; color:#8a8f98; line-height:1.7;}
   #invoice .foot .sig{text-align:right; margin-top:10px; font-size:12px; color:#1a1a1a; font-weight:600;}
   #invoice .stamp{position:absolute; right:26px; bottom:88px; font-size:10px; color:#c9a94a; border:1.5px solid #d8bf72; border-radius:50%; width:60px; height:60px; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.25; transform:rotate(-12deg); letter-spacing:.02em; opacity:.9;}
@@ -528,7 +530,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   #a4 .a4info .row{font-size:13.5px; line-height:1.9; color:#3a3a42;}
   #a4 .a4info .row b{color:#1a1a1a; font-weight:600;}
   #a4 table{width:100%; border-collapse:collapse; margin-top:40px; font-size:14px;}
-  #a4 table th{background:#1a1a1a; color:#fff; font-weight:600; padding:13px 16px; text-align:left; font-size:12.5px; letter-spacing:.02em;}
+  #a4 table th{background:#f2f3f5; color:#5a5f68; font-weight:600; padding:13px 16px; text-align:left; font-size:12.5px; letter-spacing:.02em; border-bottom:2px solid #e2e4e8;}
   #a4 table th.r, #a4 table td.r{text-align:right; font-variant-numeric:tabular-nums;}
   #a4 table td{padding:15px 16px; border-bottom:1px solid #eee; color:#3a3a42;}
   #a4 table td.evtname{font-weight:600; color:#1a1a1a;}
@@ -544,7 +546,7 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
   #a4 .a4sum .tot .v{font-size:26px; font-weight:800; font-variant-numeric:tabular-nums;}
   #a4 .a4pay{margin-top:44px; background:#faf8f2; border:1px solid #f0e9d6; border-radius:12px; padding:20px 22px;}
   #a4 .a4pay .pt{font-size:11px; color:#b8912f; letter-spacing:.16em; font-weight:700; margin-bottom:8px;}
-  #a4 .a4pay .pv{font-size:15px; font-weight:600;}
+  #a4 .a4pay .pv{font-size:13px; font-weight:600;}
   #a4 .a4foot{position:absolute; left:60px; right:60px; bottom:56px; display:flex; justify-content:space-between; align-items:flex-end; padding-top:20px; border-top:1px solid #eee;}
   #a4 .a4foot .info{font-size:12px; color:#8a8f98; line-height:1.9;}
   #a4 .a4foot .info b{color:#1a1a1a; font-weight:600;}
@@ -698,6 +700,7 @@ function render(){
   var evt=g('i_evt')||'공연명을 입력하세요';
   var to=g('i_to'), memo='';
   var date=document.getElementById('i_date').value;
+  var issue=document.getElementById('i_issue').value;
   var no=document.getElementById('i_no').value||autoNo(date);
 
   var brandHtml = logoData
@@ -715,8 +718,8 @@ function render(){
    brandHtml+
    '<div class="doctitle">INVOICE · 공연 청구서</div>'+
    (to?'<div style="font-size:14px;font-weight:600;margin-top:8px">'+esc(to)+'</div>':'')+
-   '<div class="meta"><span>청구번호 <b>'+esc(no)+'</b></span><span>공연일 <b>'+fmtDate(date)+'</b></span></div>'+
-   '<div class="evt"><div class="l">공연명</div><div class="v">'+esc(evt)+'</div></div>'+
+   '<div class="meta"><span>청구번호 <b>'+esc(no)+'</b></span><span>발행일 <b>'+fmtDate(issue)+'</b></span></div>'+
+   '<div class="evt"><div><div class="l">공연명</div><div class="v">'+esc(evt)+'</div></div><div class="evtdate">공연일 <b>'+fmtDate(date)+'</b></div></div>'+
    (memo?'<div style="font-size:12px;color:#9a9aa2;margin-top:2px">'+esc(memo)+'</div>':'')+
    '<div class="lines">'+
      (d.items.length ? d.items.map(function(it){return '<div class="li"><span>'+esc(it.name||'항목')+'</span><span class="amt">'+won(it.amt)+'</span></div>';}).join('') : '')+
@@ -757,7 +760,7 @@ function renderA4(){
    '</div>'+
    '<div class="a4info">'+
      '<div class="box"><div class="cap">받는 곳 (TO)</div><div class="row"><b style="font-size:15px">'+esc(to)+'</b></div></div>'+
-     '<div class="box" style="text-align:right"><div class="cap">청구 정보</div><div class="row">청구번호 <b>'+esc(no)+'</b><br>공연일 <b>'+fmtDate(date)+'</b><br>발행일 <b>'+fmtDate(issue)+'</b></div></div>'+
+     '<div class="box" style="text-align:right"><div class="cap">청구 정보</div><div class="row">청구번호 <b>'+esc(no)+'</b><br>발행일 <b>'+fmtDate(issue)+'</b><br>공연일 <b>'+fmtDate(date)+'</b></div></div>'+
    '</div>'+
    (d.items.length ? '<div class="a4evt"><span class="cap2">공연명</span>'+esc(evt)+'</div>' : '')+
    '<table>'+
