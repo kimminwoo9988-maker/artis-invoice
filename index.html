@@ -571,19 +571,18 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       <div class="field"><label>공연명</label><input id="i_evt" placeholder="신년음악회" oninput="render()"></div>
       <div class="field"><label>받는 곳</label><input id="i_to" placeholder="문화재단" oninput="render()"></div>
       <div class="field">
-        <label>금액</label>
-        <div class="amtwrap"><input id="i_amt" inputmode="numeric" placeholder="1,000,000" oninput="onAmt(this)"><span class="won">₩</span></div>
+        <label>산출 내역</label>
+        <div id="items"></div>
+        <button class="additem" onclick="addItem()">＋ 내역 추가</button>
+        <div class="hint">항목명과 금액을 입력하세요. ‘＋ 내역 추가’로 줄을 늘릴 수 있어요.</div>
+      </div>
+      <div class="field">
+        <label>부가세</label>
         <div class="toggle">
           <button id="tg_supply" class="on" onclick="setMode('supply')">별도 (VAT별도)</button>
           <button id="tg_total" onclick="setMode('total')">합계 (VAT포함)</button>
         </div>
         <div class="hint" id="amtHint">공급가에 부가세 10%를 더해 합계를 계산합니다.</div>
-      </div>
-      <div class="field">
-        <label>세부 산출 내역 (선택)</label>
-        <div id="items"></div>
-        <button class="additem" onclick="addItem()">＋ 내역 추가</button>
-        <div class="hint">내역을 넣으면 청구서에 항목별로 표시되고, 합계가 공급가가 됩니다. 비워두면 위 ‘금액’만 사용해요.</div>
       </div>
     </div>
 
@@ -672,8 +671,7 @@ function getItems(){
 }
 function calc(){
   var items=getItems(), base=0;
-  if(items.length){ for(var i=0;i<items.length;i++) base+=items[i].amt; }
-  else base=parseInt((document.getElementById('i_amt').value||'').replace(/[^0-9]/g,'')||'0',10)||0;
+  for(var i=0;i<items.length;i++) base+=items[i].amt;
   var incl=(mode==='total');
   var supply, vat, total;
   if(incl){ supply=base; vat=0; total=base; }
@@ -899,6 +897,7 @@ function shareDocs(noteId){
 /* 초기화 */
 (function(){var d=new Date();var t=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);document.getElementById('i_date').value=t;document.getElementById('i_issue').value=t;})();
 document.getElementById('i_no').value=autoNo(document.getElementById('i_date').value);
+addItem('출연료');
 render();
 </script>
 </body>
