@@ -568,11 +568,11 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
         <div class="field"><label>발행일</label><input type="date" id="i_issue" onchange="render()"></div>
       </div>
       <div class="field"><label>청구번호 (자동)</label><input id="i_no" placeholder="자동생성"></div>
-      <div class="field"><label>공연명</label><input id="i_evt" placeholder="" oninput="render()"></div>
-      <div class="field"><label>받는 곳 (선택)</label><input id="i_to" placeholder="" oninput="render()"></div>
+      <div class="field"><label>공연명</label><input id="i_evt" placeholder="신년음악회" oninput="render()"></div>
+      <div class="field"><label>받는 곳</label><input id="i_to" placeholder="문화재단" oninput="render()"></div>
       <div class="field">
         <label>금액</label>
-        <div class="amtwrap"><input id="i_amt" inputmode="numeric" placeholder="" oninput="onAmt(this)"><span class="won">₩</span></div>
+        <div class="amtwrap"><input id="i_amt" inputmode="numeric" placeholder="1,000,000" oninput="onAmt(this)"><span class="won">₩</span></div>
         <div class="toggle">
           <button id="tg_supply" class="on" onclick="setMode('supply')">별도 (VAT별도)</button>
           <button id="tg_total" onclick="setMode('total')">합계 (VAT포함)</button>
@@ -591,6 +591,8 @@ function(t){t.__bidiEngine__=t.prototype.__bidiEngine__=function(t){var r,n,i,a,
       <button class="btn primary big" onclick="goImage()"><span class="ci">🖼️</span> 이미지 청구서</button>
       <button class="btn ghost big" onclick="goPDF()"><span class="ci">📄</span> PDF 청구서</button>
     </div>
+    <button class="btn doc" onclick="shareDocs('inputDocNote')">📎 사업자등록증 / 통장사본 발송</button>
+    <div class="savednote" id="inputDocNote"></div>
     <div class="hint" style="text-align:center;margin-top:8px">이미지는 휴대폰용 카드, PDF는 A4 서식이에요.</div>
   </div>
 
